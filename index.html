@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HUB17 — UNEMAT · Cooperação Internacional e ODS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #003366;
+  --blue-mid: #1a4f8a;
+  --gold: #E8A020;
+  --gold-light: #fef3dc;
+  --green: #2E7D32;
+  --green-light: #e8f5e9;
+  --red: #C62828;
+  --bg: #F4F7FB;
+  --white: #ffffff;
+  --border: #e2e8f0;
+  --text: #1a2332;
+  --muted: #64748b;
+  --radius: 14px;
+  --shadow: 0 4px 24px rgba(0,51,102,0.10);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.07);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ====== HEADER ====== */
+.header {
+  background: var(--blue);
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  height: 64px;
+  gap: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+}
+.header-logo {
+  background: var(--gold);
+  color: var(--blue);
+  font-weight: 900;
+  font-size: 13px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+.header-title {
+  color: white;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.2px;
+}
+.header-sub {
+  color: rgba(255,255,255,0.5);
+  font-size: 11px;
+  font-weight: 400;
+}
+.header-status {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255,255,255,0.7);
+  font-size: 12px;
+}
+.status-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #4ade80;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+/* ====== NAV TABS ====== */
+.nav-tabs {
+  background: white;
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  display: flex;
+  gap: 4px;
+}
+.tab-btn {
+  background: none;
+  border: none;
+  padding: 14px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+}
+.tab-btn:hover { color: var(--blue); }
+.tab-btn.active { color: var(--blue); border-bottom-color: var(--gold); }
+
+/* ====== MAIN ====== */
+.main {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 28px 32px;
+}
+.view { display: none; }
+.view.active { display: block; }
+
+/* ====== OFFICE VIEW ====== */
+.office-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ====== ISOMETRIC OFFICE ====== */
+.office-canvas-wrap {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  padding: 32px 24px 24px;
+  position: relative;
+}
+.office-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.office-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.office-svg-wrap {
+  position: relative;
+  width: 100%;
+  cursor: default;
+}
+.office-svg-wrap svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Clickable hotspots */
+.hotspot {
+  cursor: pointer;
+  transition: filter 0.2s;
+}
+.hotspot:hover { filter: brightness(1.12) drop-shadow(0 0 8px rgba(232,160,32,0.5)); }
+.hotspot.selected { filter: brightness(1.15) drop-shadow(0 0 12px rgba(232,160,32,0.8)); }
+
+/* ====== INFO PANEL ====== */
+.info-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.panel-card {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.panel-header {
+  background: var(--blue);
+  color: white;
+  padding: 14px 18px;
+  font-weight: 700;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.panel-body { padding: 16px 18px; }
+
+/* Person card */
+.person-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.15s;
+  border-radius: 8px;
+  padding: 10px 8px;
+  margin: 0 -8px;
+}
+.person-card:hover { background: var(--bg); }
+.person-card:last-child { border-bottom: none; }
+.person-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 14px; color: white;
+  flex-shrink: 0;
+}
+.person-info { flex: 1; }
+.person-name { font-weight: 700; font-size: 13px; color: var(--text); }
+.person-role { font-size: 11px; color: var(--muted); }
+.person-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 7px;
+  border-radius: 20px;
+  background: var(--gold-light);
+  color: #92660a;
+}
+
+/* ODS mini pills */
+.ods-mini-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 10px;
+}
+.ods-mini {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 800; color: white;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.ods-mini:hover { transform: scale(1.15); }
+
+/* Selected element detail */
+.selected-detail {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 2px solid var(--gold);
+  overflow: hidden;
+  transition: all 0.3s;
+}
+.selected-detail-header {
+  background: var(--gold);
+  color: var(--blue);
+  padding: 14px 18px;
+  font-weight: 800;
+  font-size: 14px;
+}
+.selected-detail-body { padding: 16px 18px; }
+.detail-placeholder {
+  text-align: center;
+  padding: 24px 16px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.detail-placeholder .icon { font-size: 32px; margin-bottom: 8px; }
+
+/* ====== OBJECTIVES VIEW ====== */
+.obj-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.obj-card {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  border-left: 7px solid;
+  padding: 20px 24px;
+  cursor: pointer;
+  transition: box-shadow 0.2s, border-color 0.2s;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  min-height: 80px;
+}
+.obj-card:hover { box-shadow: var(--shadow); }
+.obj-card-icon-wrap { flex-shrink: 0; font-size: 32px; margin-top: 2px; }
+.obj-card-content { flex: 1; }
+.obj-icon { font-size: 28px; margin-bottom: 10px; }
+.obj-num {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.obj-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.obj-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.obj-ods-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 12px;
+}
+.obj-ods-pill {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 10px;
+  color: white;
+}
+.obj-progress {
+  margin-top: 14px;
+  height: 5px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.obj-progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 1s ease;
+}
+
+/* ====== ACTIONS VIEW ====== */
+.actions-toolbar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.filter-pill {
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: white;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--muted);
+  font-family: 'Inter', sans-serif;
+}
+.filter-pill.active { background: var(--blue); color: white; border-color: var(--blue); }
+.filter-pill:hover:not(.active) { border-color: var(--blue); color: var(--blue); }
+.add-action-btn {
+  margin-left: auto;
+  background: var(--gold);
+  color: var(--blue);
+  border: none;
+  padding: 9px 18px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: background 0.2s;
+  display: flex; align-items: center; gap: 6px;
+}
+.add-action-btn:hover { background: #d4911a; }
+
+.actions-list { display: flex; flex-direction: column; gap: 10px; }
+.action-item {
+  background: white;
+  border-radius: 12px;
+  padding: 16px 20px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+.action-item:hover { border-color: var(--gold); box-shadow: 0 4px 16px rgba(232,160,32,0.15); }
+.action-check {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  flex-shrink: 0;
+  margin-top: 2px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.action-check.done { background: var(--green); border-color: var(--green); color: white; }
+.action-check.progress { background: var(--gold); border-color: var(--gold); color: white; }
+.action-content { flex: 1; }
+.action-title { font-weight: 700; font-size: 14px; color: var(--text); margin-bottom: 4px; }
+.action-meta { font-size: 11px; color: var(--muted); display: flex; gap: 12px; flex-wrap: wrap; }
+.action-meta span { display: flex; align-items: center; gap: 4px; }
+.action-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.tag {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+.tag-obj { background: #e0e7ff; color: #3730a3; }
+.tag-ods { color: white; }
+.tag-prazo { background: #fee2e2; color: #991b1b; }
+.tag-prazo.ok { background: var(--green-light); color: var(--green); }
+.action-responsible {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.resp-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800; color: white;
+}
+.priority-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+}
+
+/* ====== MODAL ====== */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: white;
+  border-radius: 20px;
+  max-width: 560px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  animation: modalIn 0.25s ease;
+}
+@keyframes modalIn { from{transform:scale(0.93);opacity:0} to{transform:scale(1);opacity:1} }
+.modal-header {
+  background: var(--blue);
+  color: white;
+  padding: 20px 24px;
+  border-radius: 20px 20px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modal-header h3 { font-size: 16px; font-weight: 800; }
+.modal-close {
+  background: rgba(255,255,255,0.15);
+  border: none; color: white;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.modal-close:hover { background: rgba(255,255,255,0.3); }
+.modal-body { padding: 24px; }
+.modal-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin: 16px 0 8px;
+}
+.modal-section-title:first-child { margin-top: 0; }
+.form-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-input:focus { border-color: var(--blue); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-submit {
+  background: var(--blue);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  width: 100%;
+  margin-top: 16px;
+  transition: background 0.2s;
+}
+.form-submit:hover { background: var(--blue-mid); }
+
+/* ====== DASHBOARD ====== */
+.dash-kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.dash-kpi {
+  background: white;
+  border-radius: var(--radius);
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-top: 4px solid;
+  box-shadow: var(--shadow-sm);
+}
+.dash-kpi-num { font-size: 36px; font-weight: 900; letter-spacing: -2px; }
+.dash-kpi-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+.dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.dash-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 20px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.dash-card-title { font-size: 13px; font-weight: 700; color: var(--blue); margin-bottom: 14px; }
+.ods-coverage-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+}
+.ods-cov-icon {
+  width: 24px; height: 24px;
+  border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 800; color: white;
+  flex-shrink: 0;
+}
+.ods-cov-bar-wrap { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.ods-cov-bar { height: 100%; border-radius: 4px; }
+.ods-cov-pct { font-size: 11px; font-weight: 700; width: 35px; text-align: right; color: var(--muted); }
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 28px; right: 28px;
+  background: var(--blue);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 13px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  z-index: 300;
+  display: none;
+  animation: slideUp 0.3s ease;
+}
+@keyframes slideUp { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .office-layout { grid-template-columns: 1fr; }
+  .obj-grid { flex-direction: column; }
+  .dash-kpi-row { grid-template-columns: 1fr 1fr; }
+  .dash-grid { grid-template-columns: 1fr; }
+  .main { padding: 16px; }
+}
+@media (max-width: 600px) {
+
+  .form-row { grid-template-columns: 1fr; }
+}
+
+/* ====== PERSON ANIMATIONS ====== */
+/* Coordenador: leve balanço sentado + cabeça inclinando para tela */
+@keyframes coord-body {
+  0%,100% { transform: rotate(0deg); }
+  30%      { transform: rotate(1.5deg); }
+  70%      { transform: rotate(-1deg); }
+}
+@keyframes coord-head {
+  0%,100% { transform: translateY(0px) rotate(0deg); }
+  25%     { transform: translateY(-2px) rotate(-4deg); }
+  55%     { transform: translateY(1px) rotate(2deg); }
+}
+@keyframes coord-hand {
+  0%,100% { transform: translateX(0); }
+  40%     { transform: translateX(3px); }
+  80%     { transform: translateX(-2px); }
+}
+/* Bolsista 1: levanta da cadeira, anda até painel, volta */
+@keyframes b1-walk {
+  0%,15%,85%,100% { transform: translate(0,0); }
+  30%,70%         { transform: translate(60px, 60px); }
+  45%,55%         { transform: translate(65px, 65px); }
+}
+@keyframes b1-bounce {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-4px); }
+}
+/* Bolsista 2: inclina sobre a mesa, levanta, repete */
+@keyframes b2-lean {
+  0%,100% { transform: rotate(0deg) translateY(0); }
+  30%,70% { transform: rotate(6deg) translateY(3px); }
+  50%     { transform: rotate(-2deg) translateY(-2px); }
+}
+@keyframes b2-head-nod {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  40%     { transform: translateY(3px) rotate(5deg); }
+  75%     { transform: translateY(-1px) rotate(-2deg); }
+}
+/* Bubble de pensamento do coordenador */
+@keyframes bubble-fade {
+  0%,20%,80%,100% { opacity:0; transform:scale(0.7); }
+  35%,65%         { opacity:1; transform:scale(1); }
+}
+/* Passo alternado bolsista 1 */
+@keyframes b1-step {
+  0%,100% { transform: rotate(0deg); }
+  25%     { transform: rotate(12deg); }
+  75%     { transform: rotate(-12deg); }
+}
+
+#person-coord { transform-origin: 160px 260px; animation: coord-body 4s ease-in-out infinite; }
+#coord-head   { transform-origin: 160px 248px; animation: coord-head 4s ease-in-out infinite; }
+#coord-hand   { transform-origin: 160px 265px; animation: coord-hand 3.2s ease-in-out infinite; }
+#person-b1    { animation: b1-walk 8s ease-in-out infinite; }
+#b1-body-anim { transform-origin: 400px 235px; animation: b1-bounce 1.2s ease-in-out infinite; }
+#person-b2    { transform-origin: 620px 240px; animation: b2-lean 5s ease-in-out infinite; }
+#b2-head      { transform-origin: 620px 225px; animation: b2-head-nod 5s ease-in-out infinite; }
+#thought-bubble { transform-origin: 200px 220px; animation: bubble-fade 6s ease-in-out infinite; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-logo">HUB<br>17</div>
+  <div>
+    <div class="header-title">HUB17 — Cooperação Internacional e ODS</div>
+    <div class="header-sub">UNEMAT · Campus Cáceres · 2026</div>
+  </div>
+  <div class="header-status">
+    <div class="status-dot"></div>
+    Operacional
+  </div>
+</header>
+
+<!-- NAV -->
+<nav class="nav-tabs">
+  <button class="tab-btn active" onclick="showView('escritorio')">🏛 Escritório</button>
+  <button class="tab-btn" onclick="showView('objetivos')">🎯 Objetivos</button>
+  <button class="tab-btn" onclick="showView('acoes')">✅ Ações</button>
+  <button class="tab-btn" onclick="showView('dashboard')">📊 Dashboard</button>
+</nav>
+
+<main class="main">
+
+<!-- ========== VIEW: ESCRITÓRIO ========== -->
+<div id="v-escritorio" class="view active">
+  <!-- HUB17 ABOUT BANNER -->
+  <div style="background:linear-gradient(135deg,#003366 0%,#1a4f8a 60%,#19486A 100%);border-radius:16px;padding:28px 32px;margin-bottom:24px;display:flex;align-items:center;gap:28px">
+    <div style="background:rgba(232,160,32,0.15);border:2px solid #E8A020;border-radius:14px;padding:16px 20px;flex-shrink:0;text-align:center">
+      <div style="font-size:32px;font-weight:900;color:#E8A020;letter-spacing:-2px;line-height:1">HUB</div>
+      <div style="font-size:38px;font-weight:900;color:#E8A020;letter-spacing:-2px;line-height:1">17</div>
+    </div>
+    <div>
+      <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.5);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">UNEMAT · Campus Cáceres · 2026</div>
+      <div style="font-size:20px;font-weight:800;color:white;line-height:1.3;margin-bottom:10px">Escritório de Cooperação Internacional e ODS</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.75);line-height:1.7;max-width:640px">O HUB17 conecta a UNEMAT ao mundo. Ancorado no ODS 17 — Parcerias para a Implementação — atua como interface entre o que a universidade produz em pesquisa, ensino e extensão e as redes, financiadores e rankings internacionais que reconhecem e amplificam esse trabalho. Não é um escritório administrativo. É uma estrutura operacional que traduz, capta e articula.</div>
+      <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
+        <span style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.85);font-size:11px;font-weight:600;padding:5px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.2)">🌐 Diplomacia Científica</span>
+        <span style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.85);font-size:11px;font-weight:600;padding:5px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.2)">💰 Captação Internacional</span>
+        <span style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.85);font-size:11px;font-weight:600;padding:5px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.2)">🏆 Rankings ODS</span>
+        <span style="background:rgba(232,160,32,0.25);color:#E8A020;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;border:1px solid rgba(232,160,32,0.4)">⚓ Âncora: ODS 17</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="office-layout">
+
+    <!-- PLANTA DO ESCRITÓRIO -->
+    <div class="office-canvas-wrap">
+      <div class="office-label">🏛 Planta do Escritório — clique nos elementos para detalhes</div>
+      <div class="office-svg-wrap">
+        <svg viewBox="0 0 780 520" xmlns="http://www.w3.org/2000/svg">
+          <!-- Room floor -->
+          <rect x="20" y="20" width="740" height="480" rx="16" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+
+          <!-- Room label -->
+          <text x="390" y="52" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" fill="#94A3B8" letter-spacing="2">HUB17 — SALA 14 · BLOCO B · CAMPUS CÁCERES</text>
+
+          <!-- DOOR -->
+          <rect x="340" y="480" width="100" height="20" rx="4" fill="#CBD5E1"/>
+          <rect x="345" y="478" width="90" height="6" rx="3" fill="#94A3B8"/>
+          <text x="390" y="510" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#94A3B8">entrada</text>
+
+          <!-- WINDOW left -->
+          <rect x="20" y="130" width="12" height="80" rx="3" fill="#BAE6FD"/>
+          <line x1="26" y1="130" x2="26" y2="210" stroke="#7DD3FC" stroke-width="1.5"/>
+          <rect x="20" y="300" width="12" height="80" rx="3" fill="#BAE6FD"/>
+          <line x1="26" y1="300" x2="26" y2="380" stroke="#7DD3FC" stroke-width="1.5"/>
+
+          <!-- WINDOW right -->
+          <rect x="748" y="130" width="12" height="80" rx="3" fill="#BAE6FD"/>
+          <line x1="754" y1="130" x2="754" y2="210" stroke="#7DD3FC" stroke-width="1.5"/>
+
+          <!-- ===== MESA COORDENADOR ===== -->
+          <g class="hotspot" id="hs-coord" onclick="selectHotspot('coord')">
+            <!-- desk surface -->
+            <rect x="60" y="80" width="200" height="120" rx="10" fill="#1E3A5F" stroke="#E8A020" stroke-width="2.5"/>
+            <!-- desk top lighter -->
+            <rect x="66" y="86" width="188" height="108" rx="8" fill="#264A73"/>
+            <!-- monitor -->
+            <rect x="110" y="96" width="100" height="68" rx="6" fill="#0F172A"/>
+            <rect x="114" y="100" width="92" height="60" rx="4" fill="#1E3A5F"/>
+            <!-- screen content lines -->
+            <rect x="120" y="108" width="60" height="4" rx="2" fill="#E8A020" opacity="0.8"/>
+            <rect x="120" y="116" width="45" height="3" rx="2" fill="#94A3B8" opacity="0.6"/>
+            <rect x="120" y="122" width="50" height="3" rx="2" fill="#94A3B8" opacity="0.5"/>
+            <rect x="120" y="128" width="35" height="3" rx="2" fill="#94A3B8" opacity="0.4"/>
+            <!-- ODS mini flags on screen -->
+            <rect x="186" y="108" width="14" height="10" rx="2" fill="#C5192D"/>
+            <rect x="186" y="121" width="14" height="10" rx="2" fill="#0A97D9"/>
+            <rect x="186" y="134" width="14" height="10" rx="2" fill="#3F7E44"/>
+            <!-- monitor stand -->
+            <rect x="153" y="164" width="14" height="8" rx="2" fill="#334155"/>
+            <rect x="145" y="172" width="30" height="4" rx="2" fill="#334155"/>
+            <!-- keyboard -->
+            <rect x="108" y="176" width="70" height="14" rx="4" fill="#334155"/>
+            <!-- mouse -->
+            <rect x="188" y="177" width="18" height="12" rx="5" fill="#334155"/>
+            <!-- name plate -->
+            <rect x="68" y="176" width="36" height="14" rx="3" fill="#E8A020"/>
+            <text x="86" y="186" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" font-weight="800" fill="#1a2332">COORD.</text>
+            <!-- papers -->
+            <rect x="240" y="100" width="16" height="22" rx="2" fill="white" opacity="0.9" transform="rotate(-5,248,111)"/>
+            <rect x="242" y="102" width="16" height="22" rx="2" fill="white" opacity="0.8"/>
+            <!-- gold accent bar -->
+            <rect x="60" y="80" width="200" height="5" rx="3" fill="#E8A020"/>
+          </g>
+
+          <!-- PERSON COORDENADOR ANIMADO -->
+          <!-- thought bubble -->
+          <g id="thought-bubble">
+            <circle cx="188" cy="222" r="4" fill="white" stroke="#E8A020" stroke-width="1.2" opacity="0.9"/>
+            <circle cx="198" cy="212" r="6" fill="white" stroke="#E8A020" stroke-width="1.2" opacity="0.9"/>
+            <circle cx="212" cy="200" r="11" fill="white" stroke="#E8A020" stroke-width="1.5" opacity="0.95"/>
+            <text x="212" y="204" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#E8A020" font-weight="800">17</text>
+          </g>
+          <g class="hotspot" id="hs-ernandes" onclick="selectHotspot('coordperson')">
+            <!-- chair base -->
+            <ellipse cx="160" cy="234" rx="26" ry="16" fill="#334155"/>
+            <!-- animated body group -->
+            <g id="person-coord">
+              <!-- chair back -->
+              <rect x="140" y="222" width="40" height="28" rx="8" fill="#1E3A5F" stroke="#E8A020" stroke-width="1.5"/>
+              <!-- torso -->
+              <rect x="142" y="250" width="36" height="28" rx="10" fill="#2563EB"/>
+              <!-- arm typing -->
+              <g id="coord-hand">
+                <rect x="133" y="268" width="18" height="8" rx="4" fill="#2563EB"/>
+                <rect x="170" y="268" width="18" height="8" rx="4" fill="#2563EB"/>
+              </g>
+            </g>
+            <!-- animated head -->
+            <g id="coord-head">
+              <circle cx="160" cy="248" r="18" fill="#FBBF24"/>
+              <ellipse cx="160" cy="233" rx="18" ry="8" fill="#92400E"/>
+              <circle cx="154" cy="247" r="2.5" fill="#1a2332"/>
+              <circle cx="166" cy="247" r="2.5" fill="#1a2332"/>
+              <path d="M155 255 Q160 259 165 255" stroke="#1a2332" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <rect x="149" y="244" width="9" height="7" rx="2" fill="none" stroke="#1a2332" stroke-width="1.2" opacity="0.7"/>
+              <rect x="162" y="244" width="9" height="7" rx="2" fill="none" stroke="#1a2332" stroke-width="1.2" opacity="0.7"/>
+              <line x1="158" y1="247" x2="162" y2="247" stroke="#1a2332" stroke-width="1.2"/>
+            </g>
+            <!-- name label -->
+            <rect x="128" y="295" width="64" height="18" rx="6" fill="#E8A020"/>
+            <text x="160" y="307" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="800" fill="#003366">COORD.</text>
+          </g>
+
+          <!-- ===== MESA BOLSISTA 1 ===== -->
+          <g class="hotspot" id="hs-desk1" onclick="selectHotspot('bolsista1')">
+            <rect x="320" y="80" width="160" height="100" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="2"/>
+            <rect x="326" y="86" width="148" height="88" rx="8" fill="#F8FAFC"/>
+            <!-- laptop -->
+            <rect x="355" y="94" width="80" height="55" rx="5" fill="#1E293B"/>
+            <rect x="359" y="98" width="72" height="47" rx="3" fill="#0F172A"/>
+            <rect x="365" y="104" width="40" height="3" rx="1" fill="#38BDF8" opacity="0.8"/>
+            <rect x="365" y="110" width="30" height="3" rx="1" fill="#64748B" opacity="0.6"/>
+            <rect x="365" y="116" width="35" height="3" rx="1" fill="#64748B" opacity="0.5"/>
+            <rect x="365" y="122" width="25" height="3" rx="1" fill="#64748B" opacity="0.4"/>
+            <rect x="348" y="149" width="94" height="8" rx="3" fill="#334155"/>
+            <!-- notebook -->
+            <rect x="448" y="94" width="20" height="28" rx="2" fill="#DBEAFE"/>
+            <rect x="450" y="98" width="16" height="2" rx="1" fill="#93C5FD"/>
+            <rect x="450" y="103" width="16" height="2" rx="1" fill="#93C5FD"/>
+            <rect x="450" y="108" width="10" height="2" rx="1" fill="#93C5FD"/>
+            <!-- name plate -->
+            <rect x="326" y="158" width="50" height="14" rx="3" fill="#2E7D32"/>
+            <text x="351" y="168" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" font-weight="800" fill="white">BOLSISTA 1</text>
+            <rect x="320" y="80" width="160" height="5" rx="3" fill="#2E7D32"/>
+          </g>
+
+          <!-- PERSON BOLSISTA 1 ANIMADO -->
+          <g class="hotspot" id="hs-b1" onclick="selectHotspot('bolsista1')">
+            <g id="person-b1">
+              <g id="b1-body-anim">
+                <!-- chair -->
+                <ellipse cx="400" cy="212" rx="22" ry="13" fill="#334155"/>
+                <rect x="381" y="201" width="38" height="26" rx="8" fill="#1E293B" stroke="#2E7D32" stroke-width="1.5"/>
+                <!-- legs walking -->
+                <g id="b1-leg-l" style="transform-origin:400px 255px; animation:b1-step 0.9s ease-in-out infinite;">
+                  <rect x="391" y="252" width="10" height="18" rx="5" fill="#1E293B"/>
+                </g>
+                <g id="b1-leg-r" style="transform-origin:400px 255px; animation:b1-step 0.9s ease-in-out infinite reverse;">
+                  <rect x="403" y="252" width="10" height="18" rx="5" fill="#1E293B"/>
+                </g>
+                <!-- torso -->
+                <ellipse cx="400" cy="242" rx="20" ry="13" fill="#16A34A"/>
+                <rect x="382" y="232" width="36" height="26" rx="9" fill="#16A34A"/>
+                <!-- arms swinging -->
+                <rect x="368" y="238" width="16" height="8" rx="4" fill="#16A34A" style="transform-origin:382px 242px; animation:b1-step 0.9s ease-in-out infinite;"/>
+                <rect x="416" y="238" width="16" height="8" rx="4" fill="#16A34A" style="transform-origin:416px 242px; animation:b1-step 0.9s ease-in-out infinite reverse;"/>
+                <!-- head -->
+                <circle cx="400" cy="225" r="16" fill="#FDE68A"/>
+                <ellipse cx="400" cy="212" rx="16" ry="7" fill="#7C3AED"/>
+                <circle cx="395" cy="224" r="2.2" fill="#1a2332"/>
+                <circle cx="405" cy="224" r="2.2" fill="#1a2332"/>
+                <path d="M396 231 Q400 234 404 231" stroke="#1a2332" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              </g>
+              <!-- name label fixo -->
+              <rect x="374" y="278" width="52" height="16" rx="6" fill="#2E7D32"/>
+              <text x="400" y="289" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" font-weight="800" fill="white">BOLSISTA 1</text>
+            </g>
+          </g>
+
+          <!-- ===== MESA BOLSISTA 2 ===== -->
+          <g class="hotspot" id="hs-desk2" onclick="selectHotspot('bolsista2')">
+            <rect x="540" y="80" width="160" height="100" rx="10" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="2"/>
+            <rect x="546" y="86" width="148" height="88" rx="8" fill="#F8FAFC"/>
+            <rect x="572" y="94" width="82" height="56" rx="5" fill="#1E293B"/>
+            <rect x="576" y="98" width="74" height="48" rx="3" fill="#0F172A"/>
+            <rect x="582" y="104" width="42" height="3" rx="1" fill="#F472B6" opacity="0.8"/>
+            <rect x="582" y="110" width="32" height="3" rx="1" fill="#64748B" opacity="0.6"/>
+            <rect x="582" y="116" width="38" height="3" rx="1" fill="#64748B" opacity="0.5"/>
+            <rect x="582" y="122" width="28" height="3" rx="1" fill="#64748B" opacity="0.4"/>
+            <rect x="566" y="150" width="96" height="8" rx="3" fill="#334155"/>
+            <rect x="660" y="96" width="22" height="30" rx="2" fill="#FEE2E2"/>
+            <rect x="662" y="100" width="18" height="2" rx="1" fill="#FCA5A5"/>
+            <rect x="662" y="105" width="18" height="2" rx="1" fill="#FCA5A5"/>
+            <rect x="540" y="80" width="160" height="5" rx="3" fill="#7C3AED"/>
+            <rect x="546" y="158" width="50" height="14" rx="3" fill="#7C3AED"/>
+            <text x="571" y="168" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" font-weight="800" fill="white">BOLSISTA 2</text>
+          </g>
+
+          <!-- PERSON BOLSISTA 2 ANIMADO -->
+          <g class="hotspot" id="hs-b2" onclick="selectHotspot('bolsista2')">
+            <g id="person-b2">
+              <!-- chair -->
+              <ellipse cx="620" cy="212" rx="22" ry="13" fill="#334155"/>
+              <rect x="601" y="201" width="38" height="26" rx="8" fill="#1E293B" stroke="#7C3AED" stroke-width="1.5"/>
+              <!-- torso animated lean -->
+              <ellipse cx="620" cy="242" rx="20" ry="13" fill="#7C3AED"/>
+              <rect x="602" y="232" width="36" height="26" rx="9" fill="#7C3AED"/>
+              <!-- arm on desk -->
+              <rect x="588" y="245" width="20" height="8" rx="4" fill="#7C3AED" style="transform-origin:608px 249px; animation:b2-head-nod 5s ease-in-out infinite;"/>
+              <rect x="630" y="248" width="20" height="8" rx="4" fill="#7C3AED"/>
+            </g>
+            <!-- head animated separately -->
+            <g id="b2-head">
+              <circle cx="620" cy="225" r="16" fill="#FCD34D"/>
+              <ellipse cx="620" cy="212" rx="16" ry="7" fill="#1a2332"/>
+              <circle cx="615" cy="224" r="2.2" fill="#1a2332"/>
+              <circle cx="625" cy="224" r="2.2" fill="#1a2332"/>
+              <path d="M616 231 Q620 234 624 231" stroke="#1a2332" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            </g>
+            <!-- name label -->
+            <rect x="594" y="268" width="52" height="16" rx="6" fill="#7C3AED"/>
+            <text x="620" y="279" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" font-weight="800" fill="white">BOLSISTA 2</text>
+          </g>
+
+          <!-- ===== MESA REUNIÕES ===== -->
+          <g class="hotspot" id="hs-meeting" onclick="selectHotspot('reuniao')">
+            <ellipse cx="250" cy="400" rx="110" ry="60" fill="#FEF3DC" stroke="#E8A020" stroke-width="2"/>
+            <ellipse cx="250" cy="400" rx="90" ry="46" fill="#FEF9EE"/>
+            <!-- chairs around table -->
+            <rect x="178" y="370" width="24" height="18" rx="6" fill="#E8A020" opacity="0.7"/>
+            <rect x="178" y="412" width="24" height="18" rx="6" fill="#E8A020" opacity="0.7"/>
+            <rect x="302" y="370" width="24" height="18" rx="6" fill="#E8A020" opacity="0.7"/>
+            <rect x="302" y="412" width="24" height="18" rx="6" fill="#E8A020" opacity="0.7"/>
+            <rect x="225" y="330" width="50" height="18" rx="6" fill="#E8A020" opacity="0.7"/>
+            <rect x="225" y="452" width="50" height="18" rx="6" fill="#E8A020" opacity="0.7"/>
+            <!-- items on table -->
+            <rect x="220" y="386" width="60" height="28" rx="4" fill="white" stroke="#CBD5E1" stroke-width="1"/>
+            <rect x="224" y="390" width="35" height="3" rx="1" fill="#94A3B8"/>
+            <rect x="224" y="396" width="25" height="3" rx="1" fill="#94A3B8"/>
+            <rect x="224" y="402" width="30" height="3" rx="1" fill="#94A3B8"/>
+            <circle cx="267" cy="396" r="8" fill="#E8A020" opacity="0.4"/>
+            <text x="267" y="399" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" font-weight="800" fill="#92660a">☕</text>
+            <rect x="213" y="450" width="74" height="16" rx="6" fill="#E8A020"/>
+            <text x="250" y="461" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="800" fill="#003366">MESA REUNIÕES</text>
+          </g>
+
+          <!-- ===== PAINEL ODS ===== -->
+          <g class="hotspot" id="hs-ods" onclick="selectHotspot('painel')">
+            <rect x="430" y="320" width="300" height="160" rx="10" fill="#003366" stroke="#E8A020" stroke-width="2"/>
+            <rect x="436" y="326" width="288" height="148" rx="8" fill="#0a1f3d"/>
+            <text x="580" y="346" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#E8A020" letter-spacing="1">PAINEL DE MONITORAMENTO ODS</text>
+            <!-- ODS color blocks 3 rows -->
+            <!-- Row 1: ODS 1-6 -->
+            <rect x="442" y="352" width="38" height="28" rx="4" fill="#E5243B"/>
+            <text x="461" y="370" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="900" fill="white">1</text>
+            <rect x="484" y="352" width="38" height="28" rx="4" fill="#DDA63A"/>
+            <text x="503" y="370" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="900" fill="white">2</text>
+            <rect x="526" y="352" width="38" height="28" rx="4" fill="#4C9F38"/>
+            <text x="545" y="370" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="900" fill="white">3</text>
+            <rect x="568" y="352" width="38" height="28" rx="4" fill="#C5192D"/>
+            <text x="587" y="370" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="900" fill="white">4</text>
+            <rect x="610" y="352" width="38" height="28" rx="4" fill="#FF3A21"/>
+            <text x="629" y="370" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="900" fill="white">5</text>
+            <rect x="652" y="352" width="38" height="28" rx="4" fill="#26BDE2"/>
+            <text x="671" y="370" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="900" fill="white">6</text>
+            <!-- Row 2: ODS 7-12 -->
+            <rect x="442" y="384" width="38" height="28" rx="4" fill="#FCC30B"/>
+            <text x="461" y="402" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="900" fill="white">7</text>
+            <rect x="484" y="384" width="38" height="28" rx="4" fill="#A21942"/>
+            <text x="503" y="402" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="900" fill="white">8</text>
+            <rect x="526" y="384" width="38" height="28" rx="4" fill="#FD6925"/>
+            <text x="545" y="402" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="900" fill="white">9</text>
+            <rect x="568" y="384" width="38" height="28" rx="4" fill="#DD1367"/>
+            <text x="587" y="402" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="900" fill="white">10</text>
+            <rect x="610" y="384" width="38" height="28" rx="4" fill="#FD9D24"/>
+            <text x="629" y="402" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="900" fill="white">11</text>
+            <rect x="652" y="384" width="38" height="28" rx="4" fill="#BF8B2E"/>
+            <text x="671" y="402" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="900" fill="white">12</text>
+            <!-- Row 3: ODS 13-17 + logo -->
+            <rect x="442" y="416" width="38" height="28" rx="4" fill="#3F7E44"/>
+            <text x="461" y="434" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="900" fill="white">13</text>
+            <rect x="484" y="416" width="38" height="28" rx="4" fill="#0A97D9"/>
+            <text x="503" y="434" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="900" fill="white">14</text>
+            <rect x="526" y="416" width="38" height="28" rx="4" fill="#56C02B"/>
+            <text x="545" y="434" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="900" fill="white">15</text>
+            <rect x="568" y="416" width="38" height="28" rx="4" fill="#00689D"/>
+            <text x="587" y="434" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="900" fill="white">16</text>
+            <rect x="610" y="416" width="38" height="28" rx="4" fill="#19486A"/>
+            <text x="629" y="434" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="900" fill="white">17</text>
+            <!-- focus badge -->
+            <rect x="654" y="416" width="38" height="28" rx="4" fill="#E8A020"/>
+            <text x="673" y="431" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="900" fill="#003366">FOCO</text>
+            <text x="673" y="440" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" font-weight="700" fill="#003366">17↑</text>
+            <!-- status indicators -->
+            <circle cx="450" cy="460" r="4" fill="#4ade80"/>
+            <text x="458" y="463" font-family="Inter,sans-serif" font-size="9" fill="#94A3B8">3 ações ativas hoje</text>
+            <circle cx="570" cy="460" r="4" fill="#FCC30B"/>
+            <text x="578" y="463" font-family="Inter,sans-serif" font-size="9" fill="#94A3B8">2 pendentes</text>
+          </g>
+
+          <!-- ===== PRATELEIRA / ARQUIVOS ===== -->
+          <g class="hotspot" id="hs-shelf" onclick="selectHotspot('arquivos')">
+            <rect x="60" y="330" width="80" height="120" rx="6" fill="#78350F" stroke="#92400E" stroke-width="1.5"/>
+            <rect x="64" y="338" width="72" height="22" rx="3" fill="#DC2626" opacity="0.85"/>
+            <rect x="64" y="364" width="72" height="22" rx="3" fill="#2563EB" opacity="0.85"/>
+            <rect x="64" y="390" width="72" height="22" rx="3" fill="#16A34A" opacity="0.85"/>
+            <rect x="64" y="416" width="72" height="22" rx="3" fill="#7C3AED" opacity="0.85"/>
+            <text x="100" y="353" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="white" font-weight="700">ACORDOS</text>
+            <text x="100" y="379" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="white" font-weight="700">PROJETOS</text>
+            <text x="100" y="405" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="white" font-weight="700">ODS DATA</text>
+            <text x="100" y="431" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="white" font-weight="700">RELATÓRIOS</text>
+          </g>
+
+          <!-- LEGEND -->
+          <rect x="430" y="490" width="300" height="0" rx="4" fill="none"/>
+          <text x="390" y="498" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#94A3B8">👆 Clique em qualquer elemento para ver detalhes</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- PAINEL LATERAL -->
+    <div class="info-panel">
+
+      <!-- SELECIONADO -->
+      <div class="selected-detail" id="selected-detail">
+        <div class="selected-detail-header" id="selected-title">Selecione um elemento</div>
+        <div class="selected-detail-body" id="selected-body">
+          <div class="detail-placeholder">
+            <div class="icon">👆</div>
+            Clique em qualquer mesa, pessoa ou elemento do escritório para ver detalhes, responsabilidades e ODS vinculados.
+          </div>
+        </div>
+      </div>
+
+      <!-- EQUIPE -->
+      <div class="panel-card">
+        <div class="panel-header">👥 Equipe do Núcleo</div>
+        <div class="panel-body">
+          <div class="person-card" onclick="selectHotspot('coordperson')">
+            <div class="person-avatar" style="background:#003366">ER</div>
+            <div class="person-info">
+              <div class="person-name">Coordenador</div>
+              <div class="person-role">Responsável pelo Núcleo</div>
+            </div>
+            <div class="person-badge">UNESCO</div>
+          </div>
+          <div class="person-card" onclick="selectHotspot('bolsista1')">
+            <div class="person-avatar" style="background:#2E7D32">B1</div>
+            <div class="person-info">
+              <div class="person-name">Bolsista 1</div>
+              <div class="person-role">Extensão · Comunicação Internacional</div>
+            </div>
+            <div class="person-badge">IC/EXT</div>
+          </div>
+          <div class="person-card" onclick="selectHotspot('bolsista2')">
+            <div class="person-avatar" style="background:#7C3AED">B2</div>
+            <div class="person-info">
+              <div class="person-name">Bolsista 2</div>
+              <div class="person-role">Extensão · Dados e ODS</div>
+            </div>
+            <div class="person-badge">IC/EXT</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ODS FOCO -->
+      <div class="panel-card">
+        <div class="panel-header">🎯 ODS Âncora do Núcleo</div>
+        <div class="panel-body">
+          <p style="font-size:12px;color:var(--muted);margin-bottom:10px">ODS 17 como identidade operacional. Foco em lacunas estratégicas da UNEMAT.</p>
+          <div class="ods-mini-row">
+            <div class="ods-mini" style="background:#19486A" title="ODS 17 — Parcerias (ÂNCORA)">17</div>
+            <div class="ods-mini" style="background:#26BDE2" title="ODS 6 — Água (6% — crítico)">6</div>
+            <div class="ods-mini" style="background:#FCC30B" title="ODS 7 — Energia (2,7% — crítico)">7</div>
+            <div class="ods-mini" style="background:#0A97D9" title="ODS 14 — Vida na Água (5,5% — crítico)">14</div>
+            <div class="ods-mini" style="background:#3F7E44" title="ODS 13 — Clima (13,6%)">13</div>
+            <div class="ods-mini" style="background:#56C02B" title="ODS 15 — Vida Terrestre (11,8%)">15</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ========== VIEW: OBJETIVOS ========== -->
+<div id="v-objetivos" class="view">
+  <div style="margin-bottom:24px">
+    <h2 style="font-size:22px;font-weight:900;color:var(--blue);letter-spacing:-0.5px">Objetivos Estratégicos do HUB17</h2>
+    <p style="color:var(--muted);font-size:13px;margin-top:4px">6 objetivos estruturantes ancorados no ODS 17 e nas lacunas reais da UNEMAT</p>
+  </div>
+  <div class="obj-grid" id="obj-grid"></div>
+</div>
+
+<!-- ========== VIEW: AÇÕES ========== -->
+<div id="v-acoes" class="view">
+  <div style="margin-bottom:20px">
+    <h2 style="font-size:22px;font-weight:900;color:var(--blue);letter-spacing:-0.5px">Ações do Núcleo</h2>
+    <p style="color:var(--muted);font-size:13px;margin-top:4px">Gerencie, marque como concluídas e adicione novas ações</p>
+  </div>
+  <div class="actions-toolbar">
+    <button class="filter-pill active" onclick="filterActions('all',this)">Todas</button>
+    <button class="filter-pill" onclick="filterActions('doing',this)">Em andamento</button>
+    <button class="filter-pill" onclick="filterActions('done',this)">Concluídas</button>
+    <button class="filter-pill" onclick="filterActions('pending',this)">Pendentes</button>
+    <button class="add-action-btn" onclick="openModal()">+ Nova Ação</button>
+  </div>
+  <div class="actions-list" id="actions-list"></div>
+</div>
+
+<!-- ========== VIEW: DASHBOARD ========== -->
+<div id="v-dashboard" class="view">
+  <div style="margin-bottom:24px">
+    <h2 style="font-size:22px;font-weight:900;color:var(--blue);letter-spacing:-0.5px">Dashboard de Desempenho</h2>
+    <p style="color:var(--muted);font-size:13px;margin-top:4px">Monitoramento em tempo real do HUB17</p>
+  </div>
+  <div class="dash-kpi-row" id="dash-kpis"></div>
+  <div class="dash-grid">
+    <div class="dash-card">
+      <div class="dash-card-title">📊 Cobertura ODS pelas ações do Núcleo</div>
+      <div id="ods-coverage-list"></div>
+    </div>
+    <div class="dash-card">
+      <div class="dash-card-title">📅 Linha do tempo — próximas entregas</div>
+      <div id="timeline-list"></div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- ========== MODAL NOVA AÇÃO ========== -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalOverlay(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>+ Nova Ação</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section-title">Título da ação</div>
+      <input type="text" class="form-input" id="new-action-title" placeholder="Ex: Enviar proposta a universidade parceira">
+      <div class="modal-section-title">Descrição</div>
+      <textarea class="form-input" id="new-action-desc" rows="3" placeholder="Descreva o que precisa ser feito..."></textarea>
+      <div class="form-row">
+        <div>
+          <div class="modal-section-title">Responsável</div>
+          <select class="form-input" id="new-action-resp">
+            <option value="coord">Coordenador</option>
+            <option value="b1">Bolsista 1</option>
+            <option value="b2">Bolsista 2</option>
+          </select>
+        </div>
+        <div>
+          <div class="modal-section-title">Prazo</div>
+          <input type="date" class="form-input" id="new-action-date">
+        </div>
+      </div>
+      <div class="form-row">
+        <div>
+          <div class="modal-section-title">Objetivo</div>
+          <select class="form-input" id="new-action-obj">
+            <option value="1">Obj.1 — Diplomacia Científica</option>
+            <option value="2">Obj.2 — Captação Internacional</option>
+            <option value="3">Obj.3 — Fechar Lacunas ODS</option>
+            <option value="4">Obj.4 — Rankings</option>
+            <option value="5">Obj.5 — Formação</option>
+            <option value="6">Obj.6 — Institucionalização</option>
+          </select>
+        </div>
+        <div>
+          <div class="modal-section-title">ODS Principal</div>
+          <select class="form-input" id="new-action-ods">
+            <option value="17">ODS 17 — Parcerias</option>
+            <option value="6">ODS 6 — Água</option>
+            <option value="7">ODS 7 — Energia</option>
+            <option value="13">ODS 13 — Clima</option>
+            <option value="14">ODS 14 — Vida na Água</option>
+            <option value="15">ODS 15 — Vida Terrestre</option>
+          </select>
+        </div>
+      </div>
+      <button class="form-submit" onclick="addAction()">Registrar Ação</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+//  DATA
+// ============================================================
+const ODS_COLORS = {
+  1:"#E5243B",2:"#DDA63A",3:"#4C9F38",4:"#C5192D",5:"#FF3A21",
+  6:"#26BDE2",7:"#FCC30B",8:"#A21942",9:"#FD6925",10:"#DD1367",
+  11:"#FD9D24",12:"#BF8B2E",13:"#3F7E44",14:"#0A97D9",15:"#56C02B",
+  16:"#00689D",17:"#19486A"
+};
+
+const OBJECTIVES = [
+  {
+    num: 1, icon: "🌐", color: "#19486A",
+    title: "Diplomacia Científica do Pantanal",
+    desc: "Conectar pesquisadores da UNEMAT a redes internacionais de financiamento climático, biodiversidade e carbono. Traduzir o que a UNEMAT produz para quem paga para isso existir.",
+    ods: [13,14,15,17], progress: 35
+  },
+  {
+    num: 2, icon: "💰", color: "#E8A020",
+    title: "Captação Internacional por ODS",
+    desc: "Identificar e submeter propostas a editais internacionais com critério ODS: Horizon Europe, GEF, Green Climate Fund, programas bilaterais UNESCO e UE.",
+    ods: [6,7,17], progress: 20
+  },
+  {
+    num: 3, icon: "🔧", color: "#C62828",
+    title: "Fechar Lacunas ODS Críticas",
+    desc: "Estruturar ações de extensão e cooperação para os ODS com cobertura abaixo de 10% na UNEMAT: ODS 7 (2,7%), ODS 14 (5,5%), ODS 6 (6,0%).",
+    ods: [6,7,14], progress: 15
+  },
+  {
+    num: 4, icon: "🏆", color: "#2E7D32",
+    title: "Rankings de Sustentabilidade",
+    desc: "Posicionar a UNEMAT no UI GreenMetric e THE Impact Rankings usando o portfólio ODS mapeado como evidência. Meta: ingresso nos rankings até 2027.",
+    ods: [4,11,17], progress: 45
+  },
+  {
+    num: 5, icon: "📚", color: "#7C3AED",
+    title: "Formação para Internacionalização",
+    desc: "Capacitar pesquisadores da UNEMAT a se internacionalizarem sozinhos: projetos em inglês, ORCID, co-autoria internacional, negociação de acordos.",
+    ods: [4,17], progress: 60
+  },
+  {
+    num: 6, icon: "🏛", color: "#003366",
+    title: "Institucionalização do Núcleo",
+    desc: "Garantir que o HUB17 sobreviva além da coordenação inicial: resolução do CONSUNI, integração com Pró-Reitorias, relatório anual público, sucessão planejada.",
+    ods: [16,17], progress: 10
+  }
+];
+
+let ACTIONS = [
+  { id:1, title:"Submeter UNEMAT ao UI GreenMetric 2026", desc:"Preencher formulário e reunir evidências ODS para submissão ao ranking de sustentabilidade universitária.", resp:"coord", date:"2026-07-15", obj:4, ods:17, status:"doing", priority:"high" },
+  { id:2, title:"Redigir minuta de acordo de cooperação internacional", desc:"Elaborar draft de acordo de cooperação técnico-científica com universidade parceira internacional.", resp:"coord", date:"2026-07-30", obj:1, ods:17, status:"doing", priority:"high" },
+  { id:3, title:"Levantar editais Horizon Europe 2026-2027 com critério ODS", desc:"Mapear chamadas abertas com elegibilidade vinculada a ODS 6, 13, 14, 15.", resp:"b1", date:"2026-07-20", obj:2, ods:17, status:"doing", priority:"medium" },
+  { id:4, title:"Workshop: como escrever abstract em inglês para revistas Q1", desc:"Oficina para pós-graduandos e docentes. 3h. Campus Cáceres.", resp:"coord", date:"2026-08-10", obj:5, ods:4, status:"pending", priority:"medium" },
+  { id:5, title:"Mapear lacuna ODS 14 — ações de extensão elegíveis", desc:"Identificar pesquisadores da UNEMAT que trabalham com recursos hídricos e pesca, sem ação de extensão vinculada ao ODS 14.", resp:"b2", date:"2026-07-25", obj:3, ods:14, status:"pending", priority:"high" },
+  { id:6, title:"Criar perfil institucional UNEMAT no SDG Accord", desc:"Registrar a UNEMAT na plataforma internacional SDG Accord para visibilidade global.", resp:"b1", date:"2026-07-10", obj:4, ods:17, status:"done", priority:"low" },
+  { id:7, title:"Elaborar proposta de resolução CONSUNI para criação do HUB17 — UNEMAT", desc:"Redigir a minuta de resolução para institucionalização formal do Núcleo via CONSUNI.", resp:"coord", date:"2026-09-01", obj:6, ods:16, status:"pending", priority:"high" },
+  { id:8, title:"Contato com parceiro UNESCO — ANA water program", desc:"Articular com parceiro internacional potencial cooperação voltada a ODS 6 e recursos hídricos.", resp:"coord", date:"2026-07-05", obj:1, ods:6, status:"done", priority:"medium" },
+];
+
+const HOTSPOT_DATA = {
+  coord: {
+    title: "🖥 Mesa do Coordenador",
+    body: `<p style="font-size:13px;color:var(--muted);margin-bottom:12px">Centro de comando do HUB17. Aqui são elaboradas as propostas, gerenciados os acordos internacionais e monitorado o portfólio ODS da UNEMAT.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <span style="background:#e0e7ff;color:#3730a3;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px">📄 Acordos ativos: 2</span>
+      <span style="background:#dcfce7;color:#166534;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px">🌐 Contatos internacionais: 8</span>
+    </div>`
+  },
+  coordperson: {
+    title: "👤 Coordenador — HUB17",
+    body: `<p style="font-size:13px;color:var(--muted);margin-bottom:12px">Professor responsável pela coordenação do HUB17 · UNEMAT Campus Cáceres</p>
+    <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:6px">Responsabilidades</div>
+    <ul style="font-size:12px;color:var(--muted);padding-left:18px;line-height:2">
+      <li>Coordenação geral do HUB17</li>
+      <li>Negociação de acordos internacionais</li>
+      <li>Submissão de propostas a editais</li>
+      <li>Articulação com reitoria e pró-reitorias</li>
+    </ul>
+    <div class="ods-mini-row">
+      <div class="ods-mini" style="background:#19486A">17</div>
+      <div class="ods-mini" style="background:#3F7E44">13</div>
+      <div class="ods-mini" style="background:#0A97D9">14</div>
+      <div class="ods-mini" style="background:#56C02B">15</div>
+    </div>`
+  },
+  bolsista1: {
+    title: "👤 Bolsista 1 — Comunicação Internacional",
+    body: `<p style="font-size:13px;color:var(--muted);margin-bottom:12px">Estudante de graduação. Bolsa de extensão. Foco em comunicação, mídias internacionais e mapeamento de editais.</p>
+    <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:6px">Responsabilidades</div>
+    <ul style="font-size:12px;color:var(--muted);padding-left:18px;line-height:2">
+      <li>Mapeamento de editais internacionais</li>
+      <li>Gestão de redes e perfis institucionais</li>
+      <li>Tradução e comunicação em inglês/espanhol</li>
+      <li>Suporte à organização de eventos</li>
+    </ul>
+    <div class="ods-mini-row">
+      <div class="ods-mini" style="background:#19486A">17</div>
+      <div class="ods-mini" style="background:#C5192D">4</div>
+    </div>`
+  },
+  bolsista2: {
+    title: "👤 Bolsista 2 — Dados e ODS",
+    body: `<p style="font-size:13px;color:var(--muted);margin-bottom:12px">Estudante de graduação. Bolsa de extensão. Foco em análise de dados ODS, relatórios e monitoramento de indicadores.</p>
+    <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:6px">Responsabilidades</div>
+    <ul style="font-size:12px;color:var(--muted);padding-left:18px;line-height:2">
+      <li>Atualização do painel ODS da UNEMAT</li>
+      <li>Relatórios mensais de cobertura ODS</li>
+      <li>Suporte a rankings e certificações</li>
+      <li>Documentação e arquivamento</li>
+    </ul>
+    <div class="ods-mini-row">
+      <div class="ods-mini" style="background:#19486A">17</div>
+      <div class="ods-mini" style="background:#26BDE2">6</div>
+      <div class="ods-mini" style="background:#0A97D9">14</div>
+    </div>`
+  },
+  reuniao: {
+    title: "🪑 Mesa de Reuniões",
+    body: `<p style="font-size:13px;color:var(--muted);margin-bottom:12px">Espaço para reuniões de equipe, recepção de parceiros internacionais visitantes e apresentações para gestão da UNEMAT.</p>
+    <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:8px">Usos previstos</div>
+    <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)">
+      <div>📅 Reunião semanal de equipe (sexta, 14h)</div>
+      <div>🌐 Videoconferências internacionais</div>
+      <div>🤝 Recepção de visitantes e parceiros</div>
+      <div>📊 Apresentações para reitoria</div>
+    </div>`
+  },
+  painel: {
+    title: "📊 Painel de Monitoramento ODS",
+    body: `<p style="font-size:13px;color:var(--muted);margin-bottom:12px">Painel físico atualizado mensalmente com os 17 ODS e o status de cobertura das ações da UNEMAT. Base do argumento para rankings e financiadores.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+      <div style="background:#dcfce7;border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:20px;font-weight:900;color:#166534">17/17</div>
+        <div style="font-size:10px;color:#166534;font-weight:600">ODS cobertos</div>
+      </div>
+      <div style="background:#fef3dc;border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:20px;font-weight:900;color:#92660a">3</div>
+        <div style="font-size:10px;color:#92660a;font-weight:600">ODS críticos (&lt;10%)</div>
+      </div>
+    </div>`
+  },
+  arquivos: {
+    title: "📁 Arquivo do Núcleo",
+    body: `<p style="font-size:13px;color:var(--muted);margin-bottom:12px">Organizado em 4 categorias para acesso rápido por toda a equipe.</p>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:center;gap:10px;padding:8px;background:#fee2e2;border-radius:8px">
+        <span style="font-size:16px">📕</span>
+        <div><div style="font-size:12px;font-weight:700;color:#991b1b">ACORDOS</div><div style="font-size:11px;color:#ef4444">Universidades parceiras, organismos internacionais</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px;background:#dbeafe;border-radius:8px">
+        <span style="font-size:16px">📘</span>
+        <div><div style="font-size:12px;font-weight:700;color:#1e40af">PROJETOS</div><div style="font-size:11px;color:#3b82f6">Propostas, editais, submissões</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px;background:#dcfce7;border-radius:8px">
+        <span style="font-size:16px">📗</span>
+        <div><div style="font-size:12px;font-weight:700;color:#166534">ODS DATA</div><div style="font-size:11px;color:#16a34a">Painel, indicadores, relatórios</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px;background:#f3e8ff;border-radius:8px">
+        <span style="font-size:16px">📓</span>
+        <div><div style="font-size:12px;font-weight:700;color:#6b21a8">RELATÓRIOS</div><div style="font-size:11px;color:#7c3aed">Anuais, rankings, prestação de contas</div></div>
+      </div>
+    </div>`
+  }
+};
+
+// ============================================================
+//  RENDER
+// ============================================================
+function buildObjectives() {
+  const grid = document.getElementById('obj-grid');
+  OBJECTIVES.forEach(obj => {
+    grid.innerHTML += `
+    <div class="obj-card" style="border-left-color:${obj.color}" onclick="showObjDetail(${obj.num})">
+      <div class="obj-icon">${obj.icon}</div>
+      <div class="obj-num">OBJETIVO ${obj.num}</div>
+      <div class="obj-title">${obj.title}</div>
+      <div class="obj-desc">${obj.desc}</div>
+      <div class="obj-ods-row">
+        ${obj.ods.map(n => `<span class="obj-ods-pill" style="background:${ODS_COLORS[n]}">ODS ${n}</span>`).join('')}
+      </div>
+      <div class="obj-progress">
+        <div class="obj-progress-fill" style="width:${obj.progress}%;background:${obj.color}"></div>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:5px">${obj.progress}% concluído</div>
+    </div>`;
+  });
+}
+
+function buildActions(filter='all') {
+  const list = document.getElementById('actions-list');
+  const filtered = filter === 'all' ? ACTIONS :
+    filter === 'doing' ? ACTIONS.filter(a => a.status === 'doing') :
+    filter === 'done' ? ACTIONS.filter(a => a.status === 'done') :
+    ACTIONS.filter(a => a.status === 'pending');
+
+  const respColors = { coord:'#003366', b1:'#2E7D32', b2:'#7C3AED' };
+  const respInit = { coord:'ER', b1:'B1', b2:'B2' };
+  const checkIcon = { done:'✓', doing:'▶', pending:'' };
+  const checkClass = { done:'done', doing:'progress', pending:'' };
+  const priorityColors = { high:'#ef4444', medium:'#f59e0b', low:'#94a3b8' };
+  const obj = n => OBJECTIVES.find(o => o.num === n);
+
+  list.innerHTML = '';
+  if (filtered.length === 0) {
+    list.innerHTML = `<div style="text-align:center;padding:40px;color:var(--muted);font-size:14px">Nenhuma ação nessa categoria</div>`;
+    return;
+  }
+  filtered.forEach(a => {
+    const o = obj(a.obj);
+    list.innerHTML += `
+    <div class="action-item" id="action-${a.id}">
+      <div class="action-check ${checkClass[a.status]}" onclick="toggleAction(${a.id})" title="Marcar status">${checkIcon[a.status]}</div>
+      <div class="action-content">
+        <div class="action-title" style="${a.status==='done'?'text-decoration:line-through;opacity:0.6':''}">${a.title}</div>
+        <div class="action-meta">
+          <span>📅 ${a.date}</span>
+          <span>🎯 ${o ? o.title.split('—')[1]?.trim() || o.title : 'Objetivo '+a.obj}</span>
+        </div>
+        <div class="action-tags">
+          <span class="tag tag-obj">${o ? o.icon+' Obj.'+a.obj : 'Obj.'+a.obj}</span>
+          <span class="tag tag-ods" style="background:${ODS_COLORS[a.ods]||'#64748b'}">ODS ${a.ods}</span>
+          <span class="tag tag-prazo ${a.status==='done'?'ok':''}">${a.status==='done'?'✓ Concluída':a.status==='doing'?'Em andamento':'Pendente'}</span>
+        </div>
+      </div>
+      <div class="action-responsible">
+        <div class="resp-avatar" style="background:${respColors[a.resp]}">${respInit[a.resp]}</div>
+        <div class="priority-dot" style="background:${priorityColors[a.priority]}" title="Prioridade ${a.priority}"></div>
+      </div>
+    </div>`;
+  });
+}
+
+function buildDashboard() {
+  // KPIs
+  const total = ACTIONS.length;
+  const done = ACTIONS.filter(a=>a.status==='done').length;
+  const doing = ACTIONS.filter(a=>a.status==='doing').length;
+  const pending = ACTIONS.filter(a=>a.status==='pending').length;
+  const kpis = document.getElementById('dash-kpis');
+  kpis.innerHTML = `
+    <div class="dash-kpi" style="border-top-color:#003366"><div class="dash-kpi-num" style="color:#003366">${total}</div><div class="dash-kpi-label">Total de Ações</div></div>
+    <div class="dash-kpi" style="border-top-color:#2E7D32"><div class="dash-kpi-num" style="color:#2E7D32">${done}</div><div class="dash-kpi-label">Concluídas</div></div>
+    <div class="dash-kpi" style="border-top-color:#E8A020"><div class="dash-kpi-num" style="color:#E8A020">${doing}</div><div class="dash-kpi-label">Em Andamento</div></div>
+    <div class="dash-kpi" style="border-top-color:#C62828"><div class="dash-kpi-num" style="color:#C62828">${pending}</div><div class="dash-kpi-label">Pendentes</div></div>
+  `;
+
+  // ODS coverage
+  const odsCov = document.getElementById('ods-coverage-list');
+  const odsNums = [17,13,14,6,7,15,4,16];
+  const odsNames = {17:'Parcerias',13:'Ação Climática',14:'Vida na Água',6:'Água',7:'Energia',15:'Vida Terrestre',4:'Educação',16:'Paz e Justiça'};
+  odsNums.forEach(n => {
+    const count = ACTIONS.filter(a=>a.ods===n).length;
+    const pct = Math.round(count/total*100);
+    odsCov.innerHTML += `
+    <div class="ods-coverage-row">
+      <div class="ods-cov-icon" style="background:${ODS_COLORS[n]}">${n}</div>
+      <div style="font-size:11px;flex:0 0 90px;color:var(--muted)">${odsNames[n]}</div>
+      <div class="ods-cov-bar-wrap"><div class="ods-cov-bar" style="width:${pct}%;background:${ODS_COLORS[n]}"></div></div>
+      <div class="ods-cov-pct">${count}</div>
+    </div>`;
+  });
+
+  // Timeline
+  const tl = document.getElementById('timeline-list');
+  const sorted = [...ACTIONS].filter(a=>a.status!=='done').sort((a,b)=>a.date.localeCompare(b.date)).slice(0,6);
+  const respColors = { coord:'#003366', b1:'#2E7D32', b2:'#7C3AED' };
+  const respInit = { coord:'ER', b1:'B1', b2:'B2' };
+  sorted.forEach(a => {
+    const d = new Date(a.date+'T00:00:00');
+    const dateStr = d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
+    tl.innerHTML += `
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+      <div style="background:var(--bg);border-radius:8px;padding:6px 8px;text-align:center;flex-shrink:0;min-width:52px">
+        <div style="font-size:14px;font-weight:800;color:var(--blue)">${dateStr}</div>
+      </div>
+      <div style="flex:1;font-size:12px;font-weight:600;color:var(--text)">${a.title.length>45?a.title.slice(0,45)+'...':a.title}</div>
+      <div style="width:26px;height:26px;border-radius:50%;background:${respColors[a.resp]};color:white;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">${respInit[a.resp]}</div>
+    </div>`;
+  });
+}
+
+// ============================================================
+//  INTERACTIONS
+// ============================================================
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('v-'+id).classList.add('active');
+  event.target.classList.add('active');
+  if (id === 'dashboard') buildDashboard();
+}
+
+function selectHotspot(id) {
+  document.querySelectorAll('.hotspot').forEach(h => h.classList.remove('selected'));
+  const hs = document.getElementById('hs-'+id) || document.getElementById('hs-desk1');
+  if (hs) hs.classList.add('selected');
+  const data = HOTSPOT_DATA[id];
+  if (!data) return;
+  document.getElementById('selected-title').textContent = data.title;
+  document.getElementById('selected-body').innerHTML = data.body;
+}
+
+function filterActions(filter, btn) {
+  document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  buildActions(filter);
+}
+
+function toggleAction(id) {
+  const a = ACTIONS.find(x => x.id === id);
+  if (!a) return;
+  const cycle = { pending:'doing', doing:'done', done:'pending' };
+  a.status = cycle[a.status];
+  const activeFilter = document.querySelector('.filter-pill.active').textContent.toLowerCase();
+  const filterMap = { 'todas':'all', 'em andamento':'doing', 'concluídas':'done', 'pendentes':'pending' };
+  buildActions(filterMap[activeFilter] || 'all');
+  showToast('Status atualizado ✓');
+}
+
+function addAction() {
+  const title = document.getElementById('new-action-title').value.trim();
+  if (!title) { showToast('Digite um título para a ação'); return; }
+  const newA = {
+    id: ACTIONS.length + 1,
+    title,
+    desc: document.getElementById('new-action-desc').value,
+    resp: document.getElementById('new-action-resp').value,
+    date: document.getElementById('new-action-date').value || '2026-12-31',
+    obj: parseInt(document.getElementById('new-action-obj').value),
+    ods: parseInt(document.getElementById('new-action-ods').value),
+    status: 'pending',
+    priority: 'medium'
+  };
+  ACTIONS.unshift(newA);
+  closeModal();
+  buildActions('all');
+  document.querySelector('.filter-pill').click();
+  showToast('Ação registrada com sucesso ✓');
+}
+
+function openModal() {
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+function closeModalOverlay(e) {
+  if (e.target.id === 'modal-overlay') closeModal();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(() => { t.style.display = 'none'; }, 2800);
+}
+
+function showObjDetail(num) {
+  const obj = OBJECTIVES.find(o => o.num === num);
+  if (!obj) return;
+  const actionsForObj = ACTIONS.filter(a => a.obj === num);
+  showToast(`Objetivo ${num}: ${actionsForObj.length} ações registradas`);
+}
+
+// ============================================================
+//  INIT
+// ============================================================
+window.addEventListener('DOMContentLoaded', () => {
+  buildObjectives();
+  buildActions();
+});
+</script>
+</body>
+</html>
