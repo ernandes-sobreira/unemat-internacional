@@ -798,6 +798,8 @@ body {
         <span style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.85);font-size:11px;font-weight:600;padding:5px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.2)">🏛️ CAPES Global.edu</span>
         <span style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.85);font-size:11px;font-weight:600;padding:5px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.2)">💰 Captação Internacional</span>
         <span style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.85);font-size:11px;font-weight:600;padding:5px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.2)">🏆 Rankings ODS</span>
+        <span style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.85);font-size:11px;font-weight:600;padding:5px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.2)">🎓 Critérios CAPES · Agenda 2030</span>
+        <span style="background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.85);font-size:11px;font-weight:600;padding:5px 12px;border-radius:20px;border:1px solid rgba(255,255,255,0.2)">💼 Empregabilidade Global</span>
         <span style="background:rgba(232,160,32,0.25);color:#E8A020;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;border:1px solid rgba(232,160,32,0.4)">⚓ PNPG 2025-2029 · ODS 17</span>
       </div>
     </div>
@@ -1121,12 +1123,12 @@ body {
         <div class="panel-header">👥 Equipe do Núcleo</div>
         <div class="panel-body">
           <div class="person-card" onclick="selectHotspot('coordperson')">
-            <div class="person-avatar" style="background:#003366">ER</div>
+            <div class="person-avatar" style="background:#003366">CO</div>
             <div class="person-info">
               <div class="person-name">Coordenador</div>
               <div class="person-role">Responsável pelo Núcleo</div>
             </div>
-            <div class="person-badge">UNESCO</div>
+            <div class="person-badge">Coord.</div>
           </div>
           <div class="person-card" onclick="selectHotspot('bolsista1')">
             <div class="person-avatar" style="background:#2E7D32">B1</div>
@@ -1311,6 +1313,9 @@ body {
             <option value="7">Obj.7 — Rankings</option>
             <option value="8">Obj.8 — Formação</option>
             <option value="9">Obj.9 — Institucionalização</option>
+            <option value="10">Obj.10 — Internacionalização da PG</option>
+            <option value="11">Obj.11 — Clima e Biodiversidade</option>
+            <option value="12">Obj.12 — Empregabilidade Global</option>
           </select>
         </div>
         <div>
@@ -1325,6 +1330,7 @@ body {
             <option value="13">ODS 13 — Clima</option>
             <option value="14">ODS 14 — Vida na Água</option>
             <option value="15">ODS 15 — Vida Terrestre</option>
+            <option value="8">ODS 8 — Trabalho Decente</option>
             <option value="16">ODS 16 — Paz e Justiça</option>
           </select>
         </div>
@@ -1384,6 +1390,24 @@ const OBJECTIVES = [
     title: "Institucionalização do Núcleo",
     desc: "Garantir que o HUB17 sobreviva além da coordenação inicial: resolução do CONSUNI, integração com Pró-Reitorias, relatório anual público, sucessão planejada.",
     ods: [16,17], progress: 10
+  },
+  {
+    num: 10, icon: "\ud83c\udf93", color: "#0D9488",
+    title: "Internacionalizacao da Pos-Graduacao",
+    desc: "Atender aos criterios CAPES de avaliacao de internacionalizacao dos PPGs: captacao de recursos internacionais, publicacoes alinhadas a Agenda 2030, projetos sobre clima e biodiversidade, missoes ao exterior, intercambio bilateral e empregabilidade de egressos em mercados globais (Avelar; Pajuelo-Moreno, 2024; Leal-Filho et al., 2019).",
+    ods: [4,13,15,17], progress: 5
+  },
+  {
+    num: 11, icon: "\ud83c\udf21\ufe0f", color: "#C62828",
+    title: "Clima, Biodiversidade e Sustentabilidade Global",
+    desc: "Estruturar projetos internacionais sobre mudanca climatica, biodiversidade e gestao sustentavel de recursos naturais — criterios explicitos da avaliacao CAPES (Apendice A8/A9). Foco em colaboracao interinstitucional e internacional para mitigacao de eventos extremos e implementacao dos ODS nos curriculos de pos-graduacao.",
+    ods: [13,14,15,17], progress: 8
+  },
+  {
+    num: 12, icon: "\ud83d\udcbc", color: "#7C3AED",
+    title: "Empregabilidade e Mercado Global",
+    desc: "Formar profissionais da UNEMAT capacitados para o mercado global: estagios internacionais, certificacoes, redes de egressos no exterior, parcerias com empresas e instituicoes estrangeiras que gerem impacto no desenvolvimento local e regional.",
+    ods: [4,8,17], progress: 5
   }
 ];
 
@@ -1402,6 +1426,11 @@ let ACTIONS = [
   { id:12, title:"Articular mobilidade intranacional via rede ANDIFES", desc:"Identificar IES no Brasil com alto nível de internacionalização para acordo de mobilidade de curta duração com a UNEMAT, alinhado ao CAPES Global.edu.", resp:"b2", date:"2026-09-15", obj:3, ods:17, status:"pending", priority:"medium" },
   { id:13, title:"Elaborar plano de internacionalização para o PDI UNEMAT", desc:"Documento estratégico exigido pelo CAPES Global.edu e pelo PNPG 2025-2029. Inclui metas de mobilidade, acordos, rankings e ODS por eixo.", resp:"coord", date:"2026-10-01", obj:9, ods:16, status:"pending", priority:"high" },
   { id:14, title:"Workshop Sul-Sul: biomas, clima e cooperação", desc:"Evento de 1 dia no Campus Cáceres para apresentar o eixo de internacionalização Sul-Sul e prospectar parceiros. Convidar representantes de consulados e embaixadas.", resp:"coord", date:"2026-09-30", obj:4, ods:13, status:"pending", priority:"medium" },
+  { id:15, title:"Mapear publicações UNEMAT alinhadas à Agenda 2030", desc:"Levantamento nas plataformas Scopus e WoS de artigos de pesquisadores UNEMAT com temas ODS — critério direto de avaliação CAPES de internacionalização dos PPGs.", resp:"b2", date:"2026-08-20", obj:10, ods:17, status:"pending", priority:"high" },
+  { id:16, title:"Criar banco de oportunidades de estágio e missão no exterior", desc:"Compilar e divulgar oportunidades de missões, treinamentos e estágios internacionais para docentes e discentes dos PPGs da UNEMAT — critério CAPES (Apêndice A8).", resp:"b1", date:"2026-08-30", obj:2, ods:4, status:"pending", priority:"medium" },
+  { id:17, title:"Propor projeto internacional sobre eventos extremos e Pantanal", desc:"Estruturar proposta de pesquisa colaborativa internacional sobre mudança climática e eventos extremos no Pantanal — alinhada ao critério CAPES A9 e ODS 13/15.", resp:"coord", date:"2026-10-15", obj:11, ods:13, status:"pending", priority:"high" },
+  { id:18, title:"Monitorar empregabilidade de egressos em mercados internacionais", desc:"Criar formulário de acompanhamento de egressos dos PPGs da UNEMAT com atuação internacional — indicador de impacto da internacionalização exigido pela CAPES.", resp:"b2", date:"2026-11-01", obj:12, ods:8, status:"pending", priority:"low" },
+  { id:19, title:"Estabelecer parceria com empresa/instituição estrangeira com impacto local", desc:"Identificar e formalizar parceria com empresa ou instituição estrangeira que atue em Cáceres ou no Pantanal, promovendo transferência de tecnologia e inovação com impacto econômico regional.", resp:"coord", date:"2026-12-01", obj:12, ods:17, status:"pending", priority:"medium" },
 ];
 
 const HOTSPOT_DATA = {
@@ -1415,7 +1444,7 @@ const HOTSPOT_DATA = {
   },
   coordperson: {
     title: "👤 Coordenador — HUB17",
-    body: `<p style="font-size:13px;color:var(--muted);margin-bottom:12px">Professor responsável pela coordenação do HUB17 · UNEMAT Campus Cáceres</p>
+    body: `<p style="font-size:13px;color:var(--muted);margin-bottom:12px">Professor responsável pela coordenação do HUB17 · UNEMAT Campus Cáceres-MT</p>
     <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:6px">Responsabilidades</div>
     <ul style="font-size:12px;color:var(--muted);padding-left:18px;line-height:2">
       <li>Coordenação geral do HUB17</li>
@@ -1474,7 +1503,7 @@ const HOTSPOT_DATA = {
   },
   painel: {
     title: "📊 Painel de Monitoramento ODS",
-    body: `<p style="font-size:13px;color:var(--muted);margin-bottom:12px">Painel físico atualizado mensalmente com os 17 ODS e o status de cobertura das ações da UNEMAT. Base do argumento para rankings e financiadores.</p>
+    body: `<p style="font-size:13px;color:var(--muted);margin-bottom:12px">Painel físico atualizado mensalmente com os 17 ODS. Base para rankings, financiadores e avaliação CAPES de internacionalização dos PPGs (critérios Agenda 2030, Apêndices A8 e A9).</p>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
       <div style="background:#dcfce7;border-radius:8px;padding:10px;text-align:center">
         <div style="font-size:20px;font-weight:900;color:#166534">17/17</div>
@@ -1541,7 +1570,7 @@ function buildActions(filter='all') {
     ACTIONS.filter(a => a.status === 'pending');
 
   const respColors = { coord:'#003366', b1:'#2E7D32', b2:'#7C3AED' };
-  const respInit = { coord:'ER', b1:'B1', b2:'B2' };
+  const respInit = { coord:'CO', b1:'B1', b2:'B2' };
   const checkIcon = { done:'✓', doing:'▶', pending:'' };
   const checkClass = { done:'done', doing:'progress', pending:'' };
   const priorityColors = { high:'#ef4444', medium:'#f59e0b', low:'#94a3b8' };
@@ -1611,7 +1640,7 @@ function buildDashboard() {
   const tl = document.getElementById('timeline-list');
   const sorted = [...ACTIONS].filter(a=>a.status!=='done').sort((a,b)=>a.date.localeCompare(b.date)).slice(0,6);
   const respColors = { coord:'#003366', b1:'#2E7D32', b2:'#7C3AED' };
-  const respInit = { coord:'ER', b1:'B1', b2:'B2' };
+  const respInit = { coord:'CO', b1:'B1', b2:'B2' };
   sorted.forEach(a => {
     const d = new Date(a.date+'T00:00:00');
     const dateStr = d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});
